@@ -10,6 +10,30 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  React.useEffect(() => {
+    loadStoredToken();
+  }, []);
+
+  const loadStoredToken = async () => {
+    try {
+      const storedToken = await SecureStore.getItemAsync('userToken');
+      if (storedToken) {
+        setToken(storedToken);
+        // Fetch user profile to verify token and get fresh data
+        const data = await secureFetch('/auth/profile');
+        setUser(data.user);
+      }
+    } catch (error) {
+      console.error('Error loading token:', error);
+      // If profile fetch fails, token might be invalid
+      if (error.status === 401) {
+        await logout();
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const login = async credentials => {
     try {
       const data = await secureFetch('/auth/login', {
