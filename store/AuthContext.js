@@ -1,11 +1,40 @@
 import React, { createContext, useContext, useState } from 'react';
 
+import * as SecureStore from 'expo-secure-store';
+import { secureFetch } from '@/services/api';
+
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const login = async credentials => {
+    try {
+      const data = await secureFetch('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+      });
+
+      if (data.token) {
+        await SecureStore.setItemAsync('userToken', data.token);
+        setToken(data.token);
+        setUser(data.user);
+        return { success: true };
+      }
+      return { success: false, message: 'Invalid credentials' };
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, message: error.message || 'Login failed' };
+    }
+  };
+
+  const logout = async () => {
+    await SecureStore.deleteItemAsync('userToken');
+    setToken(null);
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider
@@ -17,6 +46,8 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         isAuthenticated: !!token,
+        login,
+        logout,
       }}
     >
       {children}
