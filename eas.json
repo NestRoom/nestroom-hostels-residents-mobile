@@ -11,21 +11,21 @@
         "simulator": true
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://10.0.2.2:5000/api",
+        "EXPO_PUBLIC_API_URL": "https://nestroom-hostels-backend.vercel.app/v1",
         "EXPO_PUBLIC_APP_VARIANT": "development"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://nestroom-backend.onrender.com/api",
+        "EXPO_PUBLIC_API_URL": "https://nestroom-hostels-backend.vercel.app/v1",
         "EXPO_PUBLIC_APP_VARIANT": "preview"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://nestroom-backend.onrender.com/api",
+        "EXPO_PUBLIC_API_URL": "https://nestroom-hostels-backend.vercel.app/v1",
         "EXPO_PUBLIC_APP_VARIANT": "production"
       }
     }
