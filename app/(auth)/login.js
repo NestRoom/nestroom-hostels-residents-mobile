@@ -19,6 +19,7 @@ import { useAuth } from '@/store/AuthContext';
 import { loginSchema } from '@/utils/validation';
 
 const LoginScreen = () => {
+  const [residentId, setResidentId] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -30,7 +31,7 @@ const LoginScreen = () => {
     setErrors({});
 
     // Validate
-    const result = loginSchema.safeParse({ email, password });
+    const result = loginSchema.safeParse({ residentId, email, password });
     if (!result.success) {
       const fieldErrors = {};
       result.error.errors.forEach(err => {
@@ -41,7 +42,7 @@ const LoginScreen = () => {
     }
 
     setIsLoading(true);
-    const response = await login({ email, password });
+    const response = await login({ residentId, email, password });
     setIsLoading(false);
 
     if (response.success) {
@@ -77,6 +78,15 @@ const LoginScreen = () => {
 
           <View style={styles.form}>
             <AppTextInput
+              label="Resident ID"
+              placeholder="e.g. RES123"
+              value={residentId}
+              onChangeText={setResidentId}
+              autoCapitalize="characters"
+              error={errors.residentId}
+            />
+
+            <AppTextInput
               label="Email Address"
               placeholder="Enter your email"
               value={email}
@@ -110,15 +120,6 @@ const LoginScreen = () => {
               isLoading={isLoading}
               style={styles.loginButton}
             />
-
-            <View style={styles.footer}>
-              <AppText variant="body">Don{"'"}t have an account? </AppText>
-              <TouchableOpacity onPress={() => router.push('/register')}>
-                <AppText variant="body" color="primary" weight="semiBold">
-                  Register
-                </AppText>
-              </TouchableOpacity>
-            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
