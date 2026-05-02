@@ -5,15 +5,9 @@ import { z } from 'zod';
  */
 
 export const loginSchema = z.object({
+  residentId: z.string().min(3, 'Resident ID is required'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
-});
-
-export const registrationSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  phone: z.string().min(10, 'Invalid phone number'),
 });
 
 export const complaintSchema = z.object({
