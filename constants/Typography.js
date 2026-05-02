@@ -3,6 +3,13 @@
  */
 
 export const Typography = {
+  fontFamily: {
+    regular: 'Poppins_400Regular',
+    medium: 'Poppins_500Medium',
+    semiBold: 'Poppins_600SemiBold',
+    bold: 'Poppins_700Bold',
+    extraBold: 'Poppins_800ExtraBold',
+  },
   size: {
     xs: 12,
     sm: 14,

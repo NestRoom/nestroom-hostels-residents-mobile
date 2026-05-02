@@ -30,6 +30,7 @@ const AppText = ({
 
 const styles = StyleSheet.create({
   base: {
+    fontFamily: Typography.fontFamily.regular,
     fontSize: Typography.size.base,
     color: Colors.light.text,
   },
